@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js practive</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Create Account</h2>
+        </div>
+        <form action="./welcome.html" class="form" id="form">
+
+            <div class="form-control">
+                <label >Name</label>
+                <input type="text" placeholder="Enter Name" id="name">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error </small>
+            </div>
+
+            <div class="form-control">
+                <label >Username</label>
+                <input type="text" placeholder="Enter username" id="username">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error </small>
+            </div>
+
+            <div class="form-control">
+                <label >Email</label>
+                <input type="email" placeholder="Enter Email ID" id="email">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error </small>
+            </div>
+
+            <div class="form-control">
+                <label >Mobile No</label>
+                <input type="text" placeholder="Enter username" id="mobileno">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error </small>
+            </div>
+
+            <div class="form-control">
+                <label >Password</label>
+                <input type="password" placeholder="Enter Password" id="password">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error </small>
+            </div>
+
+            <div class="form-control">
+                <label >Confirm Password</label>
+                <input type="password" placeholder="Confirm Password" id="password2">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error </small>
+            </div>
+
+            <button>Submit</button>
+        </form>
+
+    </div>
+
+
+
+    <script>
+
+const form = document.querySelector('#form');
+const name = document.querySelector('#name');
+const username = document.querySelector('#username');
+const email = document.querySelector('#email');
+const mobileno = document.querySelector('#mobileno');
+const password = document.querySelector('#password');
+const password2 = document.querySelector('#password2');
+var nameEr = userEr = emailEr = mobileEr = passwordEr = password2Er = false;
+
+form.addEventListener('submit', (e)=>{
+    e.preventDefault()
+    checkInput();
+});
+
+function checkInput() {
+    const nameValue = name.value.trim();
+    const usernameValue = username.value.trim();
+    const emailValue = email.value.trim();
+    const mobilenoValue = mobileno.value.trim();
+    const passwordValue = password.value.trim();
+    const password2Value = password2.value.trim();
+
+
+//name validation
+    if(nameValue==''){
+        setErrorFor(name,'Name cannot be Blank');
+    }
+    else if (nameValue.length <=3){
+        setErrorFor(name,'Name should be above three charecters')
+    }
+    else{
+        nameEr = true;
+        setSuccessFor(name);
+    }
+
+//username validation
+    if(usernameValue == ''){
+        setErrorFor(username,'Username cannot be Blank');
+    }
+    else if(usernameValue.length <=5){
+        setErrorFor(username,'Username should be ablove five charecters')
+    }
+    else {
+        userEr = true;
+        setSuccessFor(username);
+    }
+
+// Email
+    if(emailValue == ''){
+        setErrorFor(email,"Email cannot be Blank")
+    }
+    else if (!isEmail(emailValue)){
+        setErrorFor(email,"Enter a valid Email Address")
+    }
+    else{
+        emailEr = true;
+        setSuccessFor(email);
+    }
+
+//mobile no validation  
+    if(mobilenoValue == ''){
+        setErrorFor(mobileno,'Mobile Number Cannot be Blank')
+    }
+    else if (!mobCheck(mobilenoValue)){
+        setErrorFor(mobileno,'Enter a Valid Mobile Number. Kindly avoid +91 or 0')
+    }
+    else {
+        mobileEr = true;
+        setSuccessFor(mobileno);
+    }
+
+
+// password validation
+    if (passwordValue == ''){
+        setErrorFor(password,'Password Cannot be Blank');
+    }
+    // else if(passwordValue.length < 8){
+    //     setErrorFor(password,'Password must be above eight charecters');
+    // }
+    else{
+        passwordEr = true;
+        setSuccessFor(password);
+    }
+
+
+//confirm password
+
+    if (password2Value == ''){
+        setErrorFor(password2,'Password cannot be Blank');
+    }
+    else if (passwordValue != password2Value){
+        setErrorFor(password2,'Password does not match')
+    }
+    else {
+        password2Er = true;
+        setSuccessFor(password2);
+    }
+
+    // if(document.querySelectorAll('.form-control')[0].classList.contains('success')&&document.querySelectorAll('.form-control')[1].classList.contains('success')&&document.querySelectorAll('.form-control')[2].classList.contains('success')&&document.querySelectorAll('.form-control')[3].classList.contains('success')&&document.querySelectorAll('.form-control')[4].classList.contains('success')&&document.querySelectorAll('.form-control')[5].classList.contains('success')){
+    //     form.submit()
+    // }
+    
+
+    if ((nameEr && userEr && emailEr && mobileEr && passwordEr && password2Er) === true){
+        form.submit()
+    }
+}
+
+
+function isEmail(email){
+    return /^[a-zA-Z]([a-zA-Z0-9]+)([\._]?)([a-zA-Z0-9]+)@[a-zA-Z]{3,}.([a-z]{2,3})((.[a-z]{2})?)$/.test(email);
+}
+
+
+function mobCheck(mobileno){
+    return /^[6-9][0-9]{9}$/.test(mobileno);
+}
+
+
+
+
+function setErrorFor(input,message){
+    const formControl = input.parentElement;
+    const small = formControl.querySelector('small');
+    small.innerText = message;
+
+    formControl.className = 'form-control error';
+}
+
+function setSuccessFor(input){
+    const formControl = input.parentElement;
+    formControl.className = 'form-control success'
+}
+
+    </script>
+</body>
+</html>
